@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - OPD Management</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    /* General Styling */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Overlay for better contrast */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    /* Login Container */
+    .signup-container {
+      display: flex;
+      width: 800px; /* Increased width to accommodate more content */
+      height: 600px; /* Increased height to fit all content comfortably */
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    /* Left Side (Illustration) */
+    .left-side {
+      flex: 1;
+      background: url("https://img.freepik.com/free-vector/doctor-online-background-hand-drawn-style_23-2147805352.jpg?t=st=1740629430~exp=1740633030~hmac=6973d1418913da400ade134d2b8b646d9825ed9ab4fd2a54f322b68c83d6c6b0&w=996") no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .left-side .secure-icon {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .secure-icon i {
+      color: #007bff;
+      font-size: 24px;
+    }
+
+    /* Right Side (Sign Up Form) */
+    .right-side {
+      flex: 1;
+      background-color: #007bff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      color: #fff;
+    }
+
+    /* Sign Up Box */
+    .signup-box {
+      width: 90%;
+      max-width: 400px; /* Increased max-width to allow more space for content */
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+    }
+
+    .signup-box h2 {
+      color: #fff;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    /* Input Fields */
+    .signup-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .signup-box input:focus {
+      border-color: #fff;
+      box-shadow: 0 0 7px rgba(255, 255, 255, 0.5);
+      outline: none;
+    }
+
+    /* Button */
+    .signup-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #ffca28;
+      color: #333;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .signup-box button:hover {
+      background-color: #f9a825;
+      transform: scale(1.03);
+    }
+
+    /* Link */
+    .signup-box p {
+      margin-top: 20px; /* Increased margin for better spacing */
+      color: #fff;
+      font-size: 16px; /* Increased font size for better visibility */
+    }
+
+    .signup-box a {
+      color: #ffca28;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .signup-box a:hover {
+      text-decoration: underline;
+      color: #f9a825;
+    }
+
+    /* Password Strength Indicator */
+    .password-strength {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .strength-bar {
+      width: 100%;
+      height: 5px;
+      background-color: #e0e0e0;
+      border-radius: 3px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+
+    .strength-progress {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    }
+
+    .weak { background-color: red; width: 33%; }
+    .medium { background-color: yellow; width: 66%; }
+    .strong { background-color: green; width: 100%; }
+  </style>
+</head>
+<body>
+  <!-- Sign Up Container -->
+  <div class="signup-container">
+    <!-- Left Side (Illustration) -->
+    <div class="left-side">
+      <div class="secure-icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+    </div>
+
+    <!-- Right Side (Sign Up Form) -->
+    <div class="right-side">
+      <div class="signup-box">
+        <h2>Welcome!</h2>
+        <form id="signupForm">
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="email" name="email" placeholder="Your e-mail" required>
+          <input type="text" name="phone" placeholder="Your phone" required>
+          <input type="text" name="address" placeholder="Your address" required>
+          <input type="password" name="password" placeholder="Create password" required>
+          <div class="password-strength">Password strength:</div>
+          <div class="strength-bar">
+            <div class="strength-progress" id="strengthProgress"></div>
+          </div>
+          <button type="submit">Create account</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- JavaScript for Validation and Form Submission (Unchanged as requested) -->
+  <script>
+    // Handle form submission via AJAX
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+    
+        const formData = new FormData(this);
+    
+        fetch('register.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Successfully registered.") {
+                alert(data.message); // Show alert on success // Reset the form fields
+            } else {
+                alert(data.message); // Show alert with error message
+            }
+            document.getElementById('signupForm').reset(); 
+
+        })
+        .catch(error => {
+            alert("Error: " + error); // Show error if AJAX fails
+        });
+    });
+    </script>
+
+    <!-- Password Strength Indicator Script -->
+    <script>
+      const passwordInput = document.getElementById("password");
+      const strengthProgress = document.getElementById("strengthProgress");
+
+      passwordInput.addEventListener("input", function() {
+        const password = this.value;
+        let strength = "weak";
+        let width = "33%";
+        let color = "red";
+
+        if (password.length > 8 && /[A-Z]/.test(password) && /[0-9]/.test(password)) {
+          strength = "strong";
+          width = "100%";
+          color = "green";
+        } else if (password.length > 6) {
+          strength = "medium";
+          width = "66%";
+          color = "yellow";
+        }
+
+        strengthProgress.className = "strength-progress " + strength;
+        strengthProgress.style.width = width;
+        strengthProgress.style.backgroundColor = color;
+      });
+    </script>
+</body>
+</html>

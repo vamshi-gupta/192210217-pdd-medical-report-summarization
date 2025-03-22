@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Change Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #171616;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://img.freepik.com/free-vector/tiny-people-carrying-key-open-padlock_74855-16292.jpg?t=st=1740645561~exp=1740649161~hmac=25399e3fa3b83833cdceaa1b7246f29781e5922ed1f7d966f3bd0ac0c69d5b35&w=1800');
+            background-size: cover;   /* Ensures the image covers the entire screen */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents repeating */
+            background-attachment: fixed; /* Keeps the image fixed while scrolling */
+        }
+
+        .container {
+            background: rgb(229, 224, 224);
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 450px;
+            height: 450px;
+            text-align: center;
+            color: rgb(26, 27, 28);
+            position: relative;
+            min-height: 300px;
+        }
+
+        h2 {
+            margin-bottom: 40px;
+            color: #000000e0;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 80%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #dbacac;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 60%;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        p {
+            margin-top: 15px;
+            color: red;
+        }
+        .back-button {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 140px;
+            margin-top: 10px;
+            padding: 9px 15px;
+            background-color: #ec4646;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .back-button:hover {
+            background-color: #767a7e;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Change Password</h2>
+        <form id="passwordForm">
+            <label for="old_password">Old Password</label>
+            <input type="password" id="old_password" name="old_password" required>
+
+            <label for="new_password">New Password</label>
+            <input type="password" id="new_password" name="new_password" required>
+
+            <label for="confirm_password">Confirm New Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <button type="submit">Update Password</button>
+            <button class="back-button" onclick="location.href='home.html'">⬅ Go Back</button>
+
+        </form>
+
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.getElementById("passwordForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(this);
+
+            fetch("update_password.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("message").textContent = data.message;
+                if (data.status === "success") {
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 2000);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Summaries</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(101, 196, 209);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: url("https://img.freepik.com/free-photo/flat-lay-medicine-keyboard-arrangement_23-2149341567.jpg?t=st=1740633134~exp=1740636734~hmac=aa144caeaaab275bb590e989950073a3ac6ac0282f9712b8dd7251e07fc79ce3&w=1480");
+        }
+
+        /* Fixed Header at the Top */
+        .header {
+            background: linear-gradient(90deg, rgb(58, 132, 211), #00bfff);
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-link {
+            color: white;
+            font-style: italic;
+        }
+
+        .nav-link:hover {
+            color: #0056b3 !important;
+            text-decoration: underline;
+        }
+
+        /* Flash Messages */
+        .flash-message {
+            width: 50%;
+            max-width: 600px;
+            margin-top: 80px; /* Below header */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .flash-message .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .flash-message .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            width: 50%;
+            max-width: 600px;
+            margin-top: 120px; /* Below header */
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Summaries Section */
+        .summaries-section {
+            width: 50%;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .summaries-section h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .summary-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .summary-card p {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .summary-card .medical-terms {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        .summary-card .medical-terms h5 {
+            color: #007bff;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .medical-terms ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .summary-card .medical-terms li {
+            margin-bottom: 8px;
+        }
+
+        .summary-card .medical-terms li strong {
+            color: #555;
+        }
+
+        .summary-card .actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .summary-card .actions a {
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .summary-card .actions .download {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .summary-card .actions .download:hover {
+            background-color: #45a049;
+        }
+
+        .summary-card .actions .delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .summary-card .actions .delete:hover {
+            background-color: #c82333;
+        }
+
+        .no-summaries {
+            color: white;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .highlight {
+            background-color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .search-container, .summaries-section {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="logo" onclick="location.reload();">Medical Report</div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="http://127.0.0.1/pdd_vamsi/home.html" class="nav-link" onclick="location.reload();"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="nav-item"><a href="http://127.0.0.1:5000/downloads" class="nav-link" onclick="location.reload();"><i class="fas fa-download"></i> Downloads</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    <div class="flash-message">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search summaries..." onkeyup="searchReports()">
+    </div>
+
+    <!-- Summaries Section -->
+    <div class="summaries-section">
+        <h1>All Summaries</h1>
+        {% if summaries %}
+            {% for summary in summaries %}
+                <div class="summary-card" data-summary="{{ summary[6] | lower }}">
+                    <p><strong>Patient Name:</strong> {{ summary[1] }}</p>
+                    <p><strong>Doctor Name:</strong> {{ summary[2] }}</p>
+                    <p><strong>Hospital Name:</strong> {{ summary[3] }}</p>
+                    <p><strong>Last Visited:</strong> {{ summary[4] }}</p>
+                    <p><strong>Date:</strong> {{ summary[5] }}</p>
+                    <p><strong>Summary:</strong> {{ summary[6] }}</p>
+                    {% if summary[7] %}
+                        <div class="medical-terms">
+                            <h5>Medical Terms Explained</h5>
+                            <ul>
+                                {% for term in summary[7] %}
+                                    <li><strong>{{ term.term }}:</strong> {{ term.explanation }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <div class="actions">
+                        <a href="{{ url_for('download_file', id=summary[0]) }}" class="download">Download</a>
+                        <a href="{{ url_for('delete_file', id=summary[0]) }}" class="delete" onclick="return confirm('Are you sure you want to delete this summary?')">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-summaries">No summaries available.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function searchReports() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const reports = document.querySelectorAll('.summary-card');
+            reports.forEach(report => {
+                const text = report.dataset.summary.toLowerCase();
+                const summaryText = report.querySelector('p:last-of-type'); // The summary paragraph
+                if (text.includes(query)) {
+                    report.style.display = 'block';
+                    // Reset the summary text and highlight the matching query
+                    summaryText.innerHTML = summaryText.innerHTML.replace(/<span class="highlight">(.+?)<\/span>/gi, '$1');
+                    if (query) {
+                        const regex = new RegExp(query, "gi");
+                        summaryText.innerHTML = summaryText.innerHTML.replace(regex, match => `<span class="highlight">${match}</span>`);
+                    }
+                } else {
+                    report.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

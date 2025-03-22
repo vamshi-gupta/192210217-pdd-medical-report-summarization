@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Report</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body ,html{
+            background-image: url('https://img.freepik.com/free-vector/clean-medical-background_53876-116875.jpg?t=st=1740805959~exp=1740809559~hmac=64412962029efde18dddd24be27a1e44cf6e1cc9b1ab4d3461981e74414445d2&w=1800');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #fff; /* Ensure text remains readable */
+            }
+                       
+
+        /* Header */
+        .header {
+            background: rgba(55, 128, 229, 0.77);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-style: oblique;
+            font-size: 36px;
+            font-weight: bold;
+            color: rgb(243, 243, 243);
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+        }
+
+        .nav-link {
+            color: rgb(239, 239, 239) !important;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-link:hover {
+            color: #0056b3 !important;
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 90vh;
+            background: url('https://source.unsplash.com/1600x900/?hospital,medical') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 70px;
+            text-align: center;
+        }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .card-container {
+            position: relative;
+            z-index: 2;
+            width: 85%;
+        }
+
+        .card {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 22px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+            color: #003366; /* Dark blue text color */
+            }
+            
+            .card h5, .card p {
+            color: #003366; /* Dark blue for headings and paragraphs */
+            }
+            
+            .card:hover { 
+            transform: scale(1.07);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            background-color: #e3f2fd;
+            }
+            
+            .card:hover h5, .card:hover p {
+            color: #002244; /* Even darker blue on hover */
+            }
+            
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #343a40, #007bff);
+            padding: 18px 0;
+            text-align: center;
+            color: white;
+            font-weight: 500;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Scroll-to-top button */
+        #scrollToTopBtn {
+            background: linear-gradient(45deg, #007bff, #00bfff);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+        }
+
+        #scrollToTopBtn:hover {
+            background: #0056b3;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            background: rgba(231, 234, 238, 0.95);
+            border-radius: 8px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown-menu .dropdown-item {
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background: rgba(0, 123, 255, 0.15);
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <!-- Header Section -->
+<header class="header">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="logo" onclick="location.reload();">Medical Report</div>
+        <nav>
+            <ul class="nav">
+                <li class="nav-item"><a href="#" class="nav-link" onclick="location.reload();"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item"><a href="services.html" class="nav-link"><i class="fas fa-stethoscope"></i> Services</a></li>
+                <li class="nav-item"><a href="about_us.html" class="nav-link"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <!-- Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i> <!-- 3 dots icon -->
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="http://127.0.0.1:5000/downloads"><i class="fas fa-download"></i> Downloads</a></li>
+                        <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        
+        
+    </div>
+</header>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container card-container">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card" onclick="window.location.href='http://127.0.0.1:5000';">
+
+                        <i class="fas fa-file-upload"></i>
+                        <h5>Upload Reports</h5>
+                        <p>Securely upload and manage your medical reports.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card" onclick="window.location.href='http://127.0.0.1:5000/downloads?';">
+                        <i class="fas fa-file-medical"></i>
+                        <h5>PHR</h5>
+                        <p>Access your previous health records anytime.</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; <span id="currentYear"></span> Medical Report. All rights reserved.</p>
+    </footer>
+
+    <!-- Scroll-to-top Button -->
+    <button id="scrollToTopBtn" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Dynamic Year Script -->
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Scroll-to-top button
+        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.style.display = "block";
+            } else {
+                scrollToTopBtn.style.display = "none";
+            }
+        };
+
+        scrollToTopBtn.addEventListener("click", function() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+        });
+
+    </script>
+</body>
+</html>

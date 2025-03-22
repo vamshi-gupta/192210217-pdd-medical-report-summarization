@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Discharge Report</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(101, 196, 209);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: url("https://img.freepik.com/free-photo/flat-lay-medicine-keyboard-arrangement_23-2149341567.jpg?t=st=1740633134~exp=1740636734~hmac=aa144caeaaab275bb590e989950073a3ac6ac0282f9712b8dd7251e07fc79ce3&w=1480");
+        }
+
+        /* Fixed Header at the Top */
+        .header {
+            background: linear-gradient(90deg, rgb(58, 132, 211), #00bfff);
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Centered Form Container under Header */
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            max-width: 600px;
+            margin-top: 120px; /* Push container below fixed header */
+            margin-bottom: 40px; /* Add some space at the bottom */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Heading inside container at the top */
+        .form-container h1 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: rgb(12, 11, 11);
+            text-align: center;
+            width: 100%;
+        }
+
+        .form-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            text-align: left;
+            width: 100%;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* Button Container - Centered at Bottom */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            width: 150px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            background-color: #6c757d;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                width: 90%;
+            }
+        }
+
+        .nav-link {
+            color: white;
+            font-style: italic;
+        }
+
+        .nav-link:hover {
+            color: #0056b3 !important;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="logo" onclick="location.reload();">Medical Report</div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="http://127.0.0.1/pdd_vamsi/home.html" class="nav-link" onclick="location.reload();"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="nav-item"><a href="http://127.0.0.1:5000/downloads" class="nav-link" onclick="location.reload();"><i class="fas fa-download"></i> Downloads</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <h1>Upload Discharge Report</h1>
+        <form id="uploadForm" action="/" method="POST" enctype="multipart/form-data" class="form-content">
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% endif %}
+            <label for="patient_name">Patient Name:</label>
+            <input type="text" id="patient_name" name="patient_name" required>
+
+            <label for="doctor_name">Doctor Name:</label>
+            <input type="text" id="doctor_name" name="doctor_name" required>
+
+            <label for="hospital_name">Hospital Name:</label>
+            <input type="text" id="hospital_name" name="hospital_name" required>
+
+            <label for="last_visited">Last Visited:</label>
+            <input type="date" id="last_visited" name="last_visited" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="file">Upload PDF:</label>
+            <input type="file" id="file" name="file" accept=".pdf" required>
+
+            <div class="button-container">
+                <button type="submit">Submit</button>
+                <button type="button" class="back-button" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Back button functionality
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
