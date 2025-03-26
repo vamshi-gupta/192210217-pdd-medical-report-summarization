@@ -3,190 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summary Report</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Summary</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #cce5ff, #f0f8ff);
+            padding: 0;
+            background-color: rgb(101, 196, 209);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            justify-content: center;
+            background: url("https://img.freepik.com/free-photo/flat-lay-medicine-keyboard-arrangement_23-2149341567.jpg?t=st=1740633134~exp=1740636734~hmac=aa144caeaaab275bb590e989950073a3ac6ac0282f9712b8dd7251e07fc79ce3&w=1480");
         }
-        .container-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        /* Fixed Header at the Top */
+        .header {
+            background: linear-gradient(90deg, rgb(58, 132, 211), #00bfff);
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
         }
+
+        /* Centered Summary Container under Header */
         .summary-container {
-            background: #e3f2fd;
-            padding: 60px;
+            background-color: white;
+            padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            max-width: 1000px;
-            width: 90%;
-            text-align: left;
-            transition: transform 0.3s;
-            border: 1px solid #ddd;
-            min-height: 650px;
-            margin-right: 20px;
-            line-height: 1.6;
-        }
-        .button-container {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            max-width: 600px;
+            margin-top: 120px; /* Push container below fixed header */
+            margin-bottom: 40px; /* Add some space at the bottom */
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            margin-left: 20px;
+            align-items: center;
         }
-        .button-container button, .button-container a {
-            padding: 15px 25px;
-            font-size: 16px;
+
+        /* Heading inside container at the top */
+        .summary-container h1 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: rgb(12, 11, 11);
+            text-align: center;
+            width: 100%;
+        }
+
+        .summary-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .summary-content h2 {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .summary-content p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .summary-content ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .summary-content li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .summary-content li strong {
+            color: #333;
+        }
+
+        /* Button Container - Centered at Bottom */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 20px;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+        }
+
+        .btn {
+            padding: 10px;
             border: none;
-            border-radius: 10px;
+            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease-in-out;
+            transition: background-color 0.3s, transform 0.3s;
+            width: 150px;
             text-align: center;
             text-decoration: none;
-            color: white;
-            width: 250px;
-            display: block;
-        }
-        .download {
-            background: #007BFF;
-        }
-        .view-saved {
-            background: #28a745;
-        }
-        .share {
-            background: #17a2b8;
-        }
-        .cancel {
-            background: #dc3545;
-        }
-        .button-container button:hover, .button-container a:hover {
-            opacity: 0.8;
-            transform: scale(1.05);
-        }
-        #shareModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
+            display: flex;
             align-items: center;
-            animation: fadeIn 0.3s ease-in-out;
+            justify-content: center;
+            gap: 5px; /* Space between icon and text */
         }
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            position: relative;
-        }
-        .modal-content button {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            border: none;
-            background: #007BFF;
+
+        .btn-primary {
+            background-color: #007bff;
             color: white;
-            font-size: 14px;
-            transition: 0.3s;
         }
-        .modal-content button:hover {
-            background: #0056b3;
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
         }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            cursor: pointer;
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1ebe57;
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .summary-container {
+                width: 90%;
+            }
+            .btn {
+                width: 120px; /* Smaller buttons on mobile */
+                font-size: 14px;
+            }
+        }
+
+        .nav-link {
+            color: white;
+            font-style: italic;
+        }
+
+        .nav-link:hover {
+            color: #0056b3 !important;
+            text-decoration: underline;
+        }
+
+        /* Debug section for troubleshooting */
+        .debug {
+            display: none; /* Set to block to see debug info */
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="container-wrapper">
-        <div class="summary-container">
-            <h1>Summary for {{ patient_name }}</h1>
-            <p><strong>Doctor:</strong> {{ doctor_name }}</p>
-            <p><strong>Hospital:</strong> {{ hospital_name }}</p>
-            <p><strong>Last_Visited:</strong> {{ last_visited }}</p>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="logo" onclick="location.reload();">Medical Report</div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="nav-item"><a href="{{ url_for('downloads') }}" class="nav-link"><i class="fas fa-download"></i> Downloads</a></li>
+                    <li class="nav-item"><a href="{{ url_for('screenshot_to_pdf') }}" class="nav-link"><i class="fas fa-camera"></i> Screenshot to PDF</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Summary Container -->
+    <div class="summary-container">
+        <h1>Summary</h1>
+        <div class="summary-content">
+            <!-- Display flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="error-message">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Display patient details -->
+            <h2>Patient Details</h2>
+            <p><strong>Patient Name:</strong> {{ patient_name }}</p>
+            <p><strong>Doctor Name:</strong> {{ doctor_name }}</p>
+            <p><strong>Hospital Name:</strong> {{ hospital_name }}</p>
+            <p><strong>Last Visited:</strong> {{ last_visited }}</p>
             <p><strong>Date:</strong> {{ date }}</p>
-            <h2>Summary:</h2>
+
+            <!-- Display the summary -->
+            <h2>Summary Text</h2>
             <p>{{ summary }}</p>
+
+            <!-- Display medical terms -->
+            <h2>Medical Terms</h2>
+            {% if medical_terms %}
+                <ul>
+                    {% for term in medical_terms %}
+                        <li><strong>{{ term.term }}</strong>: {{ term.explanation }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No medical terms found.</p>
+            {% endif %}
+
+            <!-- Button Container -->
+            <div class="button-container">
+                <a href="{{ url_for('download_file', id=summary_id) }}" class="btn btn-primary"><i class="fas fa-download"></i> Download Summary</a>
+                <a href="{{ url_for('home') }}" class="btn btn-secondary"><i class="fas fa-upload"></i> Upload Another Report</a>
+                <!-- WhatsApp Share Button -->
+                {% if summary %}
+                    {% set share_text = "Patient Summary\n\nPatient Name: " ~ patient_name ~ "\nDoctor Name: " ~ doctor_name ~ "\nHospital Name: " ~ hospital_name ~ "\nLast Visited: " ~ last_visited ~ "\nDate: " ~ date ~ "\n\nSummary:\n" ~ summary ~ "\n\nMedical Terms:\n" %}
+                    {% if medical_terms %}
+                        {% for term in medical_terms %}
+                            {% set share_text = share_text ~ "- " ~ term.term ~ ": " ~ term.explanation ~ "\n" %}
+                        {% endfor %}
+                    {% else %}
+                        {% set share_text = share_text ~ "No medical terms extracted.\n" %}
+                    {% endif %}
+                    <a href="https://api.whatsapp.com/send?text={{ share_text|urlencode }}" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Share via WhatsApp</a>
+                {% endif %}
+            </div>
+
+            <!-- Debug Section (for troubleshooting) -->
+            <div class="debug">
+                <h3>Debug Info</h3>
+                <p>Medical Terms: {{ medical_terms|tojson }}</p>
+                <p>Share Text: {{ share_text }}</p>
+            </div>
         </div>
-        <div class="button-container">
-            <a href="{{ url_for('screenshot_to_pdf') }}" class="download">Capture Screenshot & Download PDF</a>
-            <form action="{{ url_for('downloads') }}">
-                <button type="submit" class="view-saved">View Saved Summaries</button>
-            </form>
-            <button class="share" onclick="openModal()">Share</button>
-            <button class="cancel" onclick="history.back()">Back</button>
-        </div>
-    </div>
-    
-    <div id="shareModal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Share Summary</h2>
-            <button onclick="shareViaEmail()">Share via Email</button>
-            <button onclick="shareViaWhatsApp()">Share via WhatsApp</button>
-        </div>
-        
     </div>
 
-    <script>
-        function openModal() {
-            document.getElementById("shareModal").style.display = "flex";
-        }
-        function closeModal() {
-            document.getElementById("shareModal").style.display = "none";
-        }
-        function shareViaEmail() {
-            const subject = encodeURIComponent("Summary Report for " + "{{ patient_name }}");
-            const body = encodeURIComponent("Here is the summary report:\n\n" +
-                "Doctor: {{ doctor_name }}\n" +
-                "Hospital: {{ hospital_name }}\n" +
-                "last_visited: {{ last_visited }}\n" +
-                "Date: {{ date }}\n" +
-                "Summary:\n{{ summary }}");
-            const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
-            window.location.href = mailtoLink;
-            closeModal();
-        }
-        function shareViaWhatsApp() {
-            const message = encodeURIComponent("Summary Report for {{ patient_name }}:\n" +
-                "Doctor: {{ doctor_name }}\n" +
-                "Hospital: {{ hospital_name }}\n" +
-                "last_visited: {{ last_visited }}\n" +
-                "Date: {{ date }}\n" +
-                "Summary: {{ summary }}\n\n" +
-                "Check it out here: " + window.location.href);
-            const whatsappShareUrl = `https://wa.me/?text=${message}`;
-            window.open(whatsappShareUrl, '_blank');
-            closeModal();
-        }
-        window.onclick = function(event) {
-            const modal = document.getElementById("shareModal");
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
