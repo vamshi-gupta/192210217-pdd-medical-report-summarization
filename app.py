@@ -58,22 +58,9 @@ except Exception as e:
     logging.error(f"Error loading SciSpaCy model: {e}")
     nlp = None
 
-# Simple dictionary for medical term explanations
-MEDICAL_TERMS = {
-    "hypertension": "High blood pressure, a condition where the force of blood against artery walls is too high, which can lead to heart problems.",
-    "diabetes": "A condition where the body can't properly manage blood sugar levels, often requiring diet changes or medication.",
-    "myocardial infarction": "A heart attack, which happens when blood flow to the heart is blocked, causing damage to the heart muscle.",
-    "pneumonia": "An infection in the lungs that can cause cough, fever, and difficulty breathing, often treated with antibiotics.",
-    "anemia": "A condition where you have fewer red blood cells than normal, which can make you feel tired or weak."
-}
-
 def explain_medical_term(term):
-    """Explain a medical term in natural language."""
-    term = term.lower()
-    if term in MEDICAL_TERMS:
-        return MEDICAL_TERMS[term]
-    else:
-        return f"{term} is a medical term that may relate to a specific condition, treatment, or symptom. Please consult a healthcare professional for a detailed explanation."
+    """Provide a generic explanation for a medical term."""
+    return f"{term} is a medical term that may relate to a specific condition, treatment, or symptom. Please consult a healthcare professional for a detailed explanation."
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -179,7 +166,6 @@ def home():
                 max_summary_length = 65535  # MySQL TEXT field max length
                 summary = summary[:max_summary_length]
                 medical_terms_json = json.dumps(medical_terms)
-                # Removed user_id since we're not using authentication
                 sql = "INSERT INTO summaries (patient_name, doctor_name, hospital_name, last_visited, date, summary, medical_terms) VALUES (%s, %s, %s, %s, %s, %s, %s)"
                 values = (patient_name, doctor_name, hospital_name, last_visited, date, summary, medical_terms_json)
                 cursor.execute(sql, values)
@@ -267,8 +253,8 @@ def downloads():
     try:
         cursor.execute("SELECT id, patient_name, doctor_name, hospital_name, last_visited, date, summary, medical_terms FROM summaries ORDER BY created_at DESC")
         summaries = cursor.fetchall()
-        # Parse medical_terms JSON for each summary
-        summaries = [(s[0], s[1], s[2], s[3], s[4], s[5], s[6], json.loads(s[7]) if s[7] else []) for s in summaries]
+        # Convert id to integer and parse medical_terms JSON for each summary
+        summaries = [(int(s[0]), s[1], s[2], s[3], s[4], s[5], s[6], json.loads(s[7]) if s[7] else []) for s in summaries]
         logging.debug(f"Summaries fetched for downloads: {summaries}")
     except Exception as e:
         logging.error(f"Error fetching summaries: {e}")
@@ -279,6 +265,7 @@ def downloads():
         db.close()
 
     return render_template('downloads.html', summaries=summaries)
+
 
 @app.route('/download/<int:id>')
 def download_file(id):
@@ -362,7 +349,6 @@ def delete_file(id):
         db.close()
 
     return redirect(url_for('downloads'))
-
 @app.route('/delete_summary/<int:id>')
 def delete_summary(id):
     db = get_db_connection()
